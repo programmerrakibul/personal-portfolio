@@ -1,33 +1,95 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
-  const navItems = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Projects", href: "#projects" },
-    { label: "Skills", href: "#skills" },
-    { label: "Contact", href: "#contact" },
-  ];
+  const navItems = useMemo(
+    () => [
+      { label: "Home", href: "#home", id: "home" },
+      { label: "About", href: "#about", id: "about" },
+      { label: "Projects", href: "#projects", id: "projects" },
+      { label: "Skills", href: "#skills", id: "skills" },
+      { label: "Contact", href: "#contact", id: "contact" },
+    ],
+    []
+  );
 
-  const handleNavClick = () => {
+  // Smooth scroll handler
+  const handleSmoothScroll = (e, href) => {
+    e.preventDefault();
+    const targetId = href.replace("#", "");
+    const targetElement = document.querySelector(`#${targetId}`);
+
+    if (targetElement) {
+      const navbarHeight = 64; // 16 * 4 = 64px (h-16)
+      const targetPosition = targetElement.offsetTop - navbarHeight;
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: "smooth",
+      });
+    }
+
     setMobileMenuOpen(false);
   };
 
-  const navLinks = navItems.map((item, index) => (
-    <li key={index}>
-      <a
-        href={item.href}
-        className="relative text-sm font-medium text-base-content/90 transition-colors duration-300 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-linear-to-r after:from-primary after:to-secondary after:transition-all after:duration-300 hover:after:w-full"
-      >
-        {item.label}
-      </a>
-    </li>
-  ));
+  // Track active section using Intersection Observer
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-80px 0px -80% 0px",
+      threshold: 0,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
+
+    // Observe all sections
+    navItems.forEach((item) => {
+      const element = document.querySelector(`#${item.id}`);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [navItems]);
+
+  const navLinks = navItems.map((item, index) => {
+    const isActive = activeSection === item.id;
+    return (
+      <li key={index}>
+        <Link
+          to={item.href}
+          onClick={(e) => handleSmoothScroll(e, item.href)}
+          className={`relative text-xs sm:text-sm md:text-base font-medium transition-colors duration-300 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-linear-to-r after:from-primary after:to-secondary after:transition-all after:duration-300 ${
+            isActive
+              ? "text-primary after:w-full"
+              : "text-base-content/90 after:w-0 hover:after:w-full"
+          }`}
+        >
+          {item.label}
+        </Link>
+      </li>
+    );
+  });
 
   return (
     <>
@@ -37,13 +99,14 @@ const Navbar = () => {
           <div className="navbar h-16 p-0">
             {/* Logo - Left Side */}
             <div className="navbar-start">
-              <a
-                href="#home"
-                className="text-xl md:text-2xl font-black bg-linear-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent hover:scale-105 active:scale-95 transition-transform duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30 rounded px-1"
+              <Link
+                to="#home"
+                onClick={(e) => handleSmoothScroll(e, "#home")}
+                className="text-lg sm:text-xl md:text-2xl font-black bg-linear-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent hover:scale-105 active:scale-95 transition-transform duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30 rounded px-1"
                 aria-label="Rakibul - Home"
               >
                 {`<Rakibul/>`}
-              </a>
+              </Link>
             </div>
 
             {/* Desktop Menu - Center */}
@@ -63,13 +126,18 @@ const Navbar = () => {
               </button>
 
               {/* CTA Button - Desktop Only */}
-              <Button
-                variant="primary"
-                size="sm"
-                className="hidden md:inline-flex"
+              <Link
+                to="#contact"
+                onClick={(e) => handleSmoothScroll(e, "#contact")}
               >
-                Get in Touch
-              </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="hidden md:inline-flex"
+                >
+                  Get in Touch
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -82,31 +150,43 @@ const Navbar = () => {
             <div className="bg-base-100/80 backdrop-blur-xl shadow-sm px-4 md:px-6 py-4 space-y-2 border-t border-base-200/30">
               {/* Mobile Nav Links */}
               <div className="space-y-1">
-                {navItems.map((item, index) => (
-                  <a
-                    key={index}
-                    href={item.href}
-                    onClick={handleNavClick}
-                    className="block py-3 px-4 text-base font-medium text-base-content/80 hover:bg-base-200/40 hover:text-primary transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30"
-                  >
-                    {item.label}
-                  </a>
-                ))}
+                {navItems.map((item, index) => {
+                  const isActive = activeSection === item.id;
+                  return (
+                    <Link
+                      key={index}
+                      to={item.href}
+                      onClick={(e) => handleSmoothScroll(e, item.href)}
+                      className={`block py-3 px-4 text-sm sm:text-base md:text-lg font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 ${
+                        isActive
+                          ? "bg-primary/10 text-primary"
+                          : "text-base-content/80 hover:bg-base-200/40 hover:text-primary"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* Divider */}
               <div className="divider my-2" />
 
               {/* Mobile CTA */}
-              <Button
-                variant="primary"
-                size="md"
-                fullWidth
-                onClick={handleNavClick}
+              <Link
+                to="#contact"
+                onClick={(e) => handleSmoothScroll(e, "#contact")}
+                className="block"
               >
-                Get in Touch
-              </Button>
-              <p className="text-center text-xs text-base-content/40 pt-2">
+                <Button
+                  variant="primary"
+                  size="md"
+                  fullWidth
+                >
+                  Get in Touch
+                </Button>
+              </Link>
+              <p className="text-center text-xs sm:text-sm text-base-content/40 pt-2">
                 Let&apos;s work together
               </p>
             </div>

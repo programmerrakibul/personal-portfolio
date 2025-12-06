@@ -79,7 +79,7 @@ const Projects = () => {
               {projects.map((project, index) => (
                 <div
                   key={index}
-                  className="group relative rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden aspect-[4/3]"
+                  className="group relative rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden aspect-4/3"
                 >
                   {/* Project Image - Full Card */}
                   <img
@@ -91,7 +91,7 @@ const Projects = () => {
                   {/* Hover Overlay with Content */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
                     {/* Dark Gradient Background */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black via-black/80 to-black/40" />
                     
                     {/* Colored Gradient Overlay */}
                     <div
@@ -125,7 +125,7 @@ const Projects = () => {
                       {/* Bottom Section - Project Info */}
                       <div className="space-y-3">
                         {/* Title */}
-                        <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-black text-white leading-tight">
                           {project.title}
                         </h3>
 

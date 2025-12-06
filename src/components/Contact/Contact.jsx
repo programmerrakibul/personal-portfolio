@@ -127,7 +127,7 @@ const Contact = () => {
 
             {/* Right - Contact Form */}
             <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10">
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-base-content mb-8">
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-base-content mb-8">
                 Get In Touch
               </h3>
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -146,7 +146,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-base-content placeholder-base-content/50 transition-colors duration-300"
+                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-sm sm:text-base text-base-content placeholder-base-content/50 transition-colors duration-300"
                     placeholder="Your name"
                   />
                 </div>
@@ -166,7 +166,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-base-content placeholder-base-content/50 transition-colors duration-300"
+                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-sm sm:text-base text-base-content placeholder-base-content/50 transition-colors duration-300"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -186,7 +186,7 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-base-content placeholder-base-content/50 transition-colors duration-300"
+                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-sm sm:text-base text-base-content placeholder-base-content/50 transition-colors duration-300"
                     placeholder="Project subject"
                   />
                 </div>
@@ -206,7 +206,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows="5"
-                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-base-content placeholder-base-content/50 transition-colors duration-300 resize-none"
+                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-sm sm:text-base text-base-content placeholder-base-content/50 transition-colors duration-300 resize-none"
                     placeholder="Tell me about your project..."
                   />
                 </div>
