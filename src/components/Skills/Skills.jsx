@@ -8,6 +8,7 @@ import {
   FaGitAlt,
   FaGithub,
   FaNpm,
+  FaBootstrap,
 } from "react-icons/fa";
 import {
   SiExpress,
@@ -37,6 +38,7 @@ const Skills = () => {
         { name: "HTML5", icon: FaHtml5, color: "text-orange-600" },
         { name: "CSS3", icon: FaCss3Alt, color: "text-blue-600" },
         { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-cyan-500" },
+        { name: "Bootstrap", icon: FaBootstrap, color: "text-purple-600" },
       ],
     },
     {

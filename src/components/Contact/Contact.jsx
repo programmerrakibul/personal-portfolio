@@ -1,14 +1,13 @@
 import { useState } from "react";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
-import { HiMapPin, HiEnvelope, HiPhone } from "react-icons/hi2";
+import { HiMapPin, HiEnvelope, HiPhone, HiPaperAirplane } from "react-icons/hi2";
 import { FaFacebook, FaInstagram, FaLinkedin, FaBehance } from "react-icons/fa";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    location: "",
     subject: "",
     message: "",
   });
@@ -28,7 +27,6 @@ const Contact = () => {
     setFormData({
       name: "",
       email: "",
-      location: "",
       subject: "",
       message: "",
     });
@@ -86,7 +84,7 @@ const Contact = () => {
                       key={index}
                       className="flex items-start gap-4 p-4 rounded-lg hover:bg-base-200/30 transition-all duration-300"
                     >
-                      <div className="flex-shrink-0 mt-1">
+                      <div className="shrink-0 mt-1">
                         <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/20 text-primary">
                           <Icon size={20} />
                         </div>
@@ -173,25 +171,6 @@ const Contact = () => {
                   />
                 </div>
 
-                {/* Location */}
-                <div>
-                  <label
-                    htmlFor="location"
-                    className="block text-xs sm:text-sm font-semibold text-base-content/70 uppercase tracking-wide mb-2"
-                  >
-                    Location
-                  </label>
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-base-content placeholder-base-content/50 transition-colors duration-300"
-                    placeholder="Your location"
-                  />
-                </div>
-
                 {/*  Subject */}
                 <div>
                   <label
@@ -237,9 +216,10 @@ const Contact = () => {
                   <Button
                     variant="primary"
                     size="md"
-                    className="w-full sm:w-auto"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 group"
                   >
-                    Submit
+                    Send Message
+                    <HiPaperAirplane className="group-hover:translate-x-1 transition-transform duration-300" />
                   </Button>
                 </div>
               </form>
