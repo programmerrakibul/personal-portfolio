@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -7,6 +7,11 @@ import { HiMenu, HiX } from "react-icons/hi";
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check if we're on project details page
+  const isProjectDetailsPage = location.pathname.includes("/project-details/");
 
   const navItems = useMemo(
     () => [
@@ -22,6 +27,15 @@ const Navbar = () => {
   // Smooth scroll handler
   const handleSmoothScroll = (e, href) => {
     e.preventDefault();
+    
+    // If on project details page, navigate to home with state
+    if (isProjectDetailsPage) {
+      const targetId = href.replace("#", "");
+      navigate("/", { state: { scrollTo: targetId } });
+      setMobileMenuOpen(false);
+      return;
+    }
+    
     const targetId = href.replace("#", "");
     const targetElement = document.querySelector(`#${targetId}`);
 
@@ -37,6 +51,29 @@ const Navbar = () => {
 
     setMobileMenuOpen(false);
   };
+
+  // Handle scrolling to section after navigation from project details page
+  useEffect(() => {
+    if (location.state?.scrollTo && !isProjectDetailsPage) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const targetElement = document.querySelector(`#${location.state.scrollTo}`);
+        
+        if (targetElement) {
+          const navbarHeight = 64;
+          const targetPosition = targetElement.offsetTop - navbarHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+          });
+        }
+        
+        // Clear the state after scrolling
+        navigate(location.pathname, { replace: true, state: {} });
+      }, 100);
+    }
+  }, [location.state, isProjectDetailsPage, navigate, location.pathname]);
 
   // Track active section using Intersection Observer
   useEffect(() => {
@@ -73,11 +110,13 @@ const Navbar = () => {
   }, [navItems]);
 
   const navLinks = navItems.map((item, index) => {
-    const isActive = activeSection === item.id;
+    const isActive = !isProjectDetailsPage && activeSection === item.id;
+    const linkTo = isProjectDetailsPage ? "/" : item.href;
+    
     return (
       <li key={index}>
         <Link
-          to={item.href}
+          to={linkTo}
           onClick={(e) => handleSmoothScroll(e, item.href)}
           className={`relative text-xs sm:text-sm md:text-base font-medium transition-colors duration-300 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-linear-to-r after:from-primary after:to-secondary after:transition-all after:duration-300 ${
             isActive
@@ -100,8 +139,8 @@ const Navbar = () => {
             {/* Logo - Left Side */}
             <div className="navbar-start">
               <Link
-                to="#home"
-                onClick={(e) => handleSmoothScroll(e, "#home")}
+                to={isProjectDetailsPage ? "/" : "#home"}
+                onClick={(e) => !isProjectDetailsPage && handleSmoothScroll(e, "#home")}
                 className="text-lg sm:text-xl md:text-2xl font-black bg-linear-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent hover:scale-105 active:scale-95 transition-transform duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30 rounded px-1"
                 aria-label="Rakibul - Home"
               >
@@ -127,7 +166,7 @@ const Navbar = () => {
 
               {/* CTA Button - Desktop Only */}
               <Link
-                to="#contact"
+                to={isProjectDetailsPage ? "/" : "#contact"}
                 onClick={(e) => handleSmoothScroll(e, "#contact")}
               >
                 <Button
@@ -151,11 +190,13 @@ const Navbar = () => {
               {/* Mobile Nav Links */}
               <div className="space-y-1">
                 {navItems.map((item, index) => {
-                  const isActive = activeSection === item.id;
+                  const isActive = !isProjectDetailsPage && activeSection === item.id;
+                  const linkTo = isProjectDetailsPage ? "/" : item.href;
+                  
                   return (
                     <Link
                       key={index}
-                      to={item.href}
+                      to={linkTo}
                       onClick={(e) => handleSmoothScroll(e, item.href)}
                       className={`block py-3 px-4 text-sm sm:text-base md:text-lg font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 ${
                         isActive
@@ -174,7 +215,7 @@ const Navbar = () => {
 
               {/* Mobile CTA */}
               <Link
-                to="#contact"
+                to={isProjectDetailsPage ? "/" : "#contact"}
                 onClick={(e) => handleSmoothScroll(e, "#contact")}
                 className="block"
               >
