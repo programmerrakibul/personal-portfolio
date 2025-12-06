@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Toast } from "primereact/toast";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
-import { HiMapPin, HiEnvelope, HiPhone, HiPaperAirplane } from "react-icons/hi2";
+import {
+  HiMapPin,
+  HiEnvelope,
+  HiPhone,
+  HiPaperAirplane,
+} from "react-icons/hi2";
 import { FaLinkedin, FaGithub, FaFacebook, FaXTwitter } from "react-icons/fa6";
 
 const Contact = () => {
+  const toast = useRef(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,7 +29,15 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    // Show success toast with name and email
+    toast.current.show({
+      severity: "success",
+      summary: "Message Sent Successfully!",
+      detail: `From: ${formData.name} (${formData.email})\nThank you for reaching out! I'll get back to you soon.`,
+      life: 6000,
+    });
+
     // Reset form
     setFormData({
       name: "",
@@ -36,29 +51,56 @@ const Contact = () => {
     {
       icon: HiMapPin,
       label: "Address",
-      value: "Bahawalpur, Pakistan",
+      value: "Rangpur City, Dhaka, Bangladesh",
+      type: "location",
+      link: "https://www.google.com/maps/search/?api=1&query=Rangpur+City+Dhaka+Bangladesh",
     },
     {
       icon: HiEnvelope,
       label: "Email",
-      value: "nomitthedesigner@gmail.com",
+      value: "rakibul00206@gmail.com",
+      type: "email",
+      link: "mailto:rakibul00206@gmail.com",
     },
     {
       icon: HiPhone,
       label: "Call Me Now",
-      value: "0300-681448-3",
+      value: "+880 188841-9206",
+      type: "phone",
+      link: "tel:+8801888419206",
     },
   ];
 
   const socialLinks = [
-    { icon: FaLinkedin, href: "https://www.linkedin.com/in/programmer-rakibul/", label: "LinkedIn", color: "hover:bg-blue-600" },
-    { icon: FaGithub, href: "https://github.com/programmerrakibul", label: "GitHub", color: "hover:bg-gray-900" },
-    { icon: FaFacebook, href: "https://www.facebook.com/programmerrakibul", label: "Facebook", color: "hover:bg-blue-500" },
-    { icon: FaXTwitter, href: "https://x.com/innocentboy206", label: "X (Twitter)", color: "hover:bg-black" },
+    {
+      icon: FaLinkedin,
+      href: "https://www.linkedin.com/in/programmer-rakibul/",
+      label: "LinkedIn",
+      color: "hover:bg-blue-600",
+    },
+    {
+      icon: FaGithub,
+      href: "https://github.com/programmerrakibul",
+      label: "GitHub",
+      color: "hover:bg-gray-900",
+    },
+    {
+      icon: FaFacebook,
+      href: "https://www.facebook.com/programmerrakibul",
+      label: "Facebook",
+      color: "hover:bg-blue-500",
+    },
+    {
+      icon: FaXTwitter,
+      href: "https://x.com/innocentboy206",
+      label: "X (Twitter)",
+      color: "hover:bg-black",
+    },
   ];
 
   return (
     <>
+      <Toast ref={toast} position="top-right" />
       <section id="contact" className="py-20 md:py-32 bg-base-100">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
@@ -79,13 +121,21 @@ const Contact = () => {
               <div className="space-y-4">
                 {contactInfo.map((info, index) => {
                   const Icon = info.icon;
+
                   return (
-                    <div
+                    <a
                       key={index}
-                      className="flex items-start gap-4 p-4 rounded-lg hover:bg-base-200/30 transition-all duration-300"
+                      href={info.link}
+                      target={info.type === "location" ? "_blank" : undefined}
+                      rel={
+                        info.type === "location"
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="flex items-start gap-4 p-4 rounded-lg hover:bg-base-200/30 transition-all duration-300 cursor-pointer group"
                     >
                       <div className="shrink-0 mt-1">
-                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/20 text-primary">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
                           <Icon size={20} />
                         </div>
                       </div>
@@ -93,11 +143,11 @@ const Contact = () => {
                         <p className="text-xs sm:text-sm font-semibold text-base-content/60 uppercase tracking-wide">
                           {info.label}
                         </p>
-                        <p className="text-sm sm:text-base md:text-lg font-medium text-base-content mt-1">
+                        <p className="text-sm sm:text-base md:text-lg font-medium text-base-content mt-1 group-hover:text-primary transition-colors duration-300">
                           {info.value}
                         </p>
                       </div>
-                    </div>
+                    </a>
                   );
                 })}
               </div>
