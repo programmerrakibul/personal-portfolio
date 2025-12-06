@@ -82,18 +82,20 @@ const About = () => {
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col md:flex-row gap-4 pt-6">
-                <Button variant="primary" size="md">
-                  My Projects
-                </Button>
-                <Button
-                  variant="outline"
-                  size="md"
-                  className="flex items-center justify-center gap-2 group"
+              <div>
+                <a
+                  href="https://drive.google.com/uc?export=download&id=1bGZvYnbQUxohwmJiug-NPv4gzws5Ja1K"
+                  download
                 >
-                  <HiDownload className="group-hover:animate-bounce" />
-                  Download Resume
-                </Button>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    className="flex items-center justify-center gap-2 group"
+                  >
+                    <HiDownload className="group-hover:animate-bounce" />
+                    Download Resume
+                  </Button>
+                </a>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
 import { HiMapPin, HiEnvelope, HiPhone, HiPaperAirplane } from "react-icons/hi2";
-import { FaFacebook, FaInstagram, FaLinkedin, FaBehance } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaFacebook, FaXTwitter } from "react-icons/fa6";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -51,10 +51,10 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: FaFacebook, href: "https://facebook.com", label: "Facebook" },
-    { icon: FaInstagram, href: "https://instagram.com", label: "Instagram" },
-    { icon: FaBehance, href: "https://behance.com", label: "Behance" },
-    { icon: FaLinkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: FaLinkedin, href: "https://www.linkedin.com/in/programmer-rakibul/", label: "LinkedIn", color: "hover:bg-blue-600" },
+    { icon: FaGithub, href: "https://github.com/programmerrakibul", label: "GitHub", color: "hover:bg-gray-900" },
+    { icon: FaFacebook, href: "https://www.facebook.com/programmerrakibul", label: "Facebook", color: "hover:bg-blue-500" },
+    { icon: FaXTwitter, href: "https://x.com/innocentboy206", label: "X (Twitter)", color: "hover:bg-black" },
   ];
 
   return (
@@ -103,7 +103,7 @@ const Contact = () => {
               </div>
 
               {/* Social Links */}
-              <div className="flex gap-4 pt-4">
+              <div className="flex gap-3 pt-4">
                 {socialLinks.map((social, index) => {
                   const Icon = social.icon;
                   return (
@@ -112,13 +112,10 @@ const Contact = () => {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-12 h-12 rounded-lg bg-primary/20 hover:bg-primary text-primary hover:text-white transition-all duration-300 flex items-center justify-center group"
+                      className={`w-10 h-10 rounded-full bg-purple-100 ${social.color} text-purple-600 hover:text-white transition-all duration-300 flex items-center justify-center hover:scale-110`}
                       aria-label={social.label}
                     >
-                      <Icon
-                        size={20}
-                        className="group-hover:scale-110 transition-transform duration-300"
-                      />
+                      <Icon className="w-5 h-5" />
                     </a>
                   );
                 })}
@@ -205,7 +202,7 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    rows="5"
+                    rows="3"
                     className="w-full px-4 py-3 border-b-2 border-base-300 focus:border-primary outline-none bg-transparent text-sm sm:text-base text-base-content placeholder-base-content/50 transition-colors duration-300 resize-none"
                     placeholder="Tell me about your project..."
                   />

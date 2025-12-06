@@ -70,14 +70,19 @@ const Hero = () => {
 
               {/* CTA Button */}
               <div className="flex gap-4 pt-4">
-                <Button
-                  variant="primary"
-                  size="md"
-                  className="flex items-center justify-center gap-2 group"
+                <a
+                  href="https://drive.google.com/uc?export=download&id=1bGZvYnbQUxohwmJiug-NPv4gzws5Ja1K"
+                  download
                 >
-                  <HiDownload className="group-hover:animate-bounce" />
-                  Download Resume
-                </Button>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    className="flex items-center justify-center gap-2 group"
+                  >
+                    <HiDownload className="group-hover:animate-bounce" />
+                    Download Resume
+                  </Button>
+                </a>
               </div>
 
               {/* Stats */}
