@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion, useInView } from "framer-motion";
 import { Toast } from "primereact/toast";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
@@ -12,6 +14,8 @@ import { FaLinkedin, FaGithub, FaFacebook, FaXTwitter } from "react-icons/fa6";
 
 const Contact = () => {
   const toast = useRef(null);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -98,14 +102,50 @@ const Contact = () => {
     },
   ];
 
+  const leftVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const rightVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (index) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.3 + index * 0.1,
+        ease: "easeOut",
+      },
+    }),
+  };
+
   return (
     <>
       <Toast ref={toast} position="top-right" />
-      <section id="contact" className="py-20 md:py-32 bg-base-100">
+      <section id="contact" ref={ref} className="py-20 md:py-32 bg-base-100">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
             {/* Left - Contact Info */}
-            <div className="space-y-8">
+            <motion.div
+              className="space-y-8"
+              variants={leftVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               {/* Heading */}
               <div className="space-y-4">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-base-content leading-tight">
@@ -123,7 +163,7 @@ const Contact = () => {
                   const Icon = info.icon;
 
                   return (
-                    <a
+                    <motion.a
                       key={index}
                       href={info.link}
                       target={info.type === "location" ? "_blank" : undefined}
@@ -133,6 +173,11 @@ const Contact = () => {
                           : undefined
                       }
                       className="flex items-start gap-4 p-4 rounded-lg hover:bg-base-200/30 transition-all duration-300 cursor-pointer group"
+                      custom={index}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate={isInView ? "visible" : "hidden"}
+                      whileHover={{ x: 10 }}
                     >
                       <div className="shrink-0 mt-1">
                         <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
@@ -147,7 +192,7 @@ const Contact = () => {
                           {info.value}
                         </p>
                       </div>
-                    </a>
+                    </motion.a>
                   );
                 })}
               </div>
@@ -157,23 +202,34 @@ const Contact = () => {
                 {socialLinks.map((social, index) => {
                   const Icon = social.icon;
                   return (
-                    <a
+                    <motion.a
                       key={index}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-10 h-10 rounded-full bg-purple-100 ${social.color} text-purple-600 hover:text-white transition-all duration-300 flex items-center justify-center hover:scale-110`}
+                      className={`w-10 h-10 rounded-full bg-purple-100 ${social.color} text-purple-600 hover:text-white transition-all duration-300 flex items-center justify-center`}
                       aria-label={social.label}
+                      custom={index + 3}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate={isInView ? "visible" : "hidden"}
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <Icon className="w-5 h-5" />
-                    </a>
+                    </motion.a>
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
 
             {/* Right - Contact Form */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10">
+            <motion.div
+              className="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10"
+              variants={rightVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-base-content mb-8">
                 Get In Touch
               </h3>
@@ -270,7 +326,7 @@ const Contact = () => {
                   </Button>
                 </div>
               </form>
-            </div>
+            </motion.div>
           </div>
         </Container>
       </section>

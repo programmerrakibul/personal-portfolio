@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import Container from "../Container/Container";
 import { HiExternalLink, HiCode } from "react-icons/hi";
 import { FaReact, FaNodeJs, FaHtml5 } from "react-icons/fa";
@@ -16,7 +19,9 @@ import heroIoImg from "../../assets/hero-io.png";
 import { useNavigate } from "react-router";
 
 const Projects = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const projects = [
     {
@@ -65,10 +70,33 @@ const Projects = () => {
     },
   ];
 
+  const headerVariants = {
+    hidden: { opacity: 0, y: -30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const projectVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: (index) => ({
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        delay: index * 0.15,
+        ease: "easeOut",
+      },
+    }),
+  };
+
   return (
     <>
       <section
         id="projects"
+        ref={ref}
         className="py-20 md:py-32 bg-base-100 relative overflow-hidden"
       >
         {/* Animated Background Elements */}
@@ -83,7 +111,12 @@ const Projects = () => {
         <Container>
           <div className="relative z-10">
             {/* Section Header */}
-            <div className="text-center space-y-4 mb-12 md:mb-20">
+            <motion.div
+              className="text-center space-y-4 mb-12 md:mb-20"
+              variants={headerVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-base-content leading-tight">
                 My Projects
               </h2>
@@ -91,15 +124,21 @@ const Projects = () => {
                 Showcasing my recent work and creative solutions built with
                 modern technologies
               </p>
-            </div>
+            </motion.div>
 
             {/* Projects Grid - 4 Columns */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-              {projects.map((project) => (
-          
-                  <div key={project.id}
-                  onClick={()=> navigate(`project-details/${project.id}`)}
-                    className="group relative cursor-pointer rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden aspect-4/3"
+              {projects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    onClick={() => navigate(`project-details/${project.id}`)}
+                    className="group relative cursor-pointer rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden aspect-4/3"
+                    custom={index}
+                    variants={projectVariants}
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    whileHover={{ y: -10, scale: 1.03 }}
+                    transition={{ type: "spring", stiffness: 300 }}
                   >
                     {/* Project Image - Full Card */}
                     <img
@@ -173,8 +212,7 @@ const Projects = () => {
                     <div
                       className={`absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                     />
-                  </div>
-          
+                  </motion.div>
               ))}
             </div>
           </div>

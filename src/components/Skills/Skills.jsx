@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import Container from "../Container/Container";
 import {
   FaReact,
@@ -24,6 +27,8 @@ import { TbBrandNextjs } from "react-icons/tb";
 import { HiBolt } from "react-icons/hi2";
 
 const Skills = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const skillCategories = [
     {
       title: "Frontend Development",
@@ -73,10 +78,33 @@ const Skills = () => {
     },
   ];
 
+  const headerVariants = {
+    hidden: { opacity: 0, y: -30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (index) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        delay: index * 0.2,
+        ease: "easeOut",
+      },
+    }),
+  };
+
   return (
     <>
       <section
         id="skills"
+        ref={ref}
         className="py-20 md:py-32 bg-linear-to-br from-base-100 via-purple-50/10 to-cyan-50/10 relative overflow-hidden"
       >
         {/* Animated Background Elements */}
@@ -91,21 +119,32 @@ const Skills = () => {
         <Container>
           <div className="relative z-10">
             {/* Section Header */}
-            <div className="text-center space-y-4 mb-12 md:mb-20">
+            <motion.div
+              className="text-center space-y-4 mb-12 md:mb-20"
+              variants={headerVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-base-content leading-tight">
                 My Skills
               </h2>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl text-base-content/70 leading-relaxed max-w-2xl mx-auto">
                 Technologies and tools I use to bring ideas to life
               </p>
-            </div>
+            </motion.div>
 
             {/* Skills Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {skillCategories.map((category, categoryIndex) => (
-                <div
+                <motion.div
                   key={categoryIndex}
                   className={`group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border ${category.borderColor} hover:border-transparent`}
+                  custom={categoryIndex}
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                  whileHover={{ y: -10, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
                   {/* Animated Gradient Border */}
                   <div
@@ -172,7 +211,7 @@ const Skills = () => {
                       })}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

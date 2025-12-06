@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
+// eslint-disable-next-line no-unused-vars
+import {motion,  AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
@@ -7,11 +9,21 @@ import { HiMenu, HiX } from "react-icons/hi";
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   
   // Check if we're on project details page
   const isProjectDetailsPage = location.pathname.includes("/project-details/");
+
+  // Track scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = useMemo(
     () => [
@@ -132,7 +144,14 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-base-100/80 border-b border-base-200/30 shadow-sm">
+      <motion.nav
+        className={`bg-base-100/80 border-b border-base-200/30 shadow-sm transition-all duration-300 ${
+          scrolled ? "backdrop-blur-xl bg-base-100/95 shadow-md" : ""
+        }`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <Container>
           {/* Desktop & Mobile layout */}
           <div className="navbar h-16 p-0">
@@ -181,12 +200,16 @@ const Navbar = () => {
           </div>
 
           {/* Custom Mobile Menu - Smooth Slide Animation */}
-          <div
-            className={`lg:hidden border-t border-base-200/30 overflow-hidden transition-all duration-300 ease-in-out ${
-              mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="bg-base-100/80 backdrop-blur-xl shadow-sm px-4 md:px-6 py-4 space-y-2 border-t border-base-200/30">
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div
+                className="lg:hidden border-t border-base-200/30 overflow-hidden"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                <div className="bg-base-100/80 backdrop-blur-xl shadow-sm px-4 md:px-6 py-4 space-y-2 border-t border-base-200/30">
               {/* Mobile Nav Links */}
               <div className="space-y-1">
                 {navItems.map((item, index) => {
@@ -230,10 +253,12 @@ const Navbar = () => {
               <p className="text-center text-xs sm:text-sm text-base-content/40 pt-2">
                 Let&apos;s work together
               </p>
-            </div>
-          </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Container>
-      </nav>
+      </motion.nav>
     </>
   );
 };
