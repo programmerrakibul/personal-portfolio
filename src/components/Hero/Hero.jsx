@@ -36,9 +36,8 @@ const Hero = () => {
   };
 
   const stats = [
-    { value: "2+", label: "Years Experience" },
-    { value: "50+", label: "Projects Completed" },
-    { value: "30+", label: "Happy Clients" },
+    { value: "1", label: "Years of hands-on Experience" },
+    { value: "10+", label: "Projects Completed" },
   ];
 
   return (
