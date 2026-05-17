@@ -2,10 +2,9 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Container from "../Container/Container";
+
 import {
   FaReact,
-  FaHtml5,
-  FaCss3Alt,
   FaJs,
   FaNodeJs,
   FaGitAlt,
@@ -13,6 +12,7 @@ import {
   FaNpm,
   FaBootstrap,
 } from "react-icons/fa";
+
 import {
   SiExpress,
   SiMongodb,
@@ -22,7 +22,14 @@ import {
   SiNetlify,
   SiPostman,
   SiVite,
+  SiTypescript,
+  SiShadcnui,
+  SiMui,
+  SiMongoose,
+  SiJsonwebtokens,
+  SiZod,
 } from "react-icons/si";
+
 import { TbBrandNextjs } from "react-icons/tb";
 import { HiBolt } from "react-icons/hi2";
 
@@ -37,12 +44,13 @@ const Skills = () => {
       borderColor: "border-purple-500/20",
       iconBg: "bg-purple-100",
       skills: [
-        { name: "React.js", icon: FaReact, color: "text-cyan-500" },
+        { name: "TypeScript", icon: SiTypescript, color: "text-[#3178C6]" },
         { name: "Next.js", icon: TbBrandNextjs, color: "text-gray-900" },
+        { name: "React.js", icon: FaReact, color: "text-cyan-500" },
         { name: "JavaScript", icon: FaJs, color: "text-yellow-500" },
-        { name: "HTML5", icon: FaHtml5, color: "text-orange-600" },
-        { name: "CSS3", icon: FaCss3Alt, color: "text-blue-600" },
         { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-cyan-500" },
+        { name: "Shadcn UI", icon: SiShadcnui, color: "text-black" },
+        { name: "Material UI", icon: SiMui, color: "text-[#3b82f6]" },
         { name: "Bootstrap", icon: FaBootstrap, color: "text-purple-600" },
       ],
     },
@@ -56,7 +64,10 @@ const Skills = () => {
         { name: "Node.js", icon: FaNodeJs, color: "text-green-600" },
         { name: "Express.js", icon: SiExpress, color: "text-gray-700" },
         { name: "MongoDB", icon: SiMongodb, color: "text-green-600" },
+        { name: "Mongoose", icon: SiMongoose, color: "text-stone-400" },
         { name: "Firebase", icon: SiFirebase, color: "text-yellow-500" },
+        { name: "JWT", icon: SiJsonwebtokens, color: "text-pink-500" },
+        { name: "Zod", icon: SiZod, color: "text-yellow-400" },
       ],
     },
     {
@@ -150,7 +161,7 @@ const Skills = () => {
                   <div
                     className={`absolute inset-0 rounded-3xl bg-linear-to-r ${category.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm`}
                   />
-                  <div className="absolute inset-[2px] rounded-3xl bg-white group-hover:bg-transparent transition-all duration-500" />
+                  <div className="absolute inset-0.5 rounded-3xl bg-white group-hover:bg-transparent transition-all duration-500" />
 
                   {/* Gradient Background on Hover */}
                   <div
