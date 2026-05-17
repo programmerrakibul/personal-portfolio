@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+html {
+  @apply scroll-smooth;
+}
+
 /* Responsive Toast Styles */
 .p-toast {
   z-index: 9999 !important;
@@ -21,7 +25,7 @@
     width: auto !important;
     max-width: calc(100vw - 2rem) !important;
   }
-  
+
   .p-toast .p-toast-message {
     min-width: 300px !important;
     max-width: 380px !important;
@@ -42,11 +46,11 @@
     max-width: 100% !important;
     font-size: 0.875rem !important;
   }
-  
+
   .p-toast .p-toast-summary {
     font-size: 0.9375rem !important;
   }
-  
+
   .p-toast .p-toast-detail {
     font-size: 0.8125rem !important;
   }
@@ -57,11 +61,11 @@
   .p-toast .p-toast-message {
     min-width: 260px !important;
   }
-  
+
   .p-toast .p-toast-summary {
     font-size: 0.875rem !important;
   }
-  
+
   .p-toast .p-toast-detail {
     font-size: 0.75rem !important;
   }

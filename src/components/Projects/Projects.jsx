@@ -72,7 +72,10 @@ const Projects = () => {
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
-                  onClick={() => navigate(`project-details/${project.id}`)}
+                  onClick={() => {
+                    navigate(`project-details/${project.id}`);
+                    window.scrollTo(0, 0);
+                  }}
                   className="group relative cursor-pointer rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden aspect-4/3"
                   custom={index}
                   variants={projectVariants}
