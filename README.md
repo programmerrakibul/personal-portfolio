@@ -165,7 +165,7 @@ npm install
 npm run dev
 ```
 
-The portfolio will be available at `http://localhost:5173`
+The portfolio will be available at `http://localhost:3000`
 
 ---
 
@@ -182,7 +182,7 @@ The portfolio will be available at `http://localhost:5173`
 
 ## 📁 Project Structure
 
-```
+```text
 personal-portfolio/
 ├── src/
 │   ├── components/
@@ -316,5 +316,6 @@ portfolio, but please do not directly copy or reuse without permission.
 
 ---
 
-**Last Updated:** March 2025  
-**Current Version:** 1.0.0
+**Last Updated:** May 2026
+
+---

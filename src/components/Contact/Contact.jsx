@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from "framer-motion";
+import { useState, useRef } from "react";
 import { Toast } from "primereact/toast";
-import Container from "../Container/Container";
-import Button from "../Button/Button";
+import Container from "@/components/Container/Container";
+import Button from "@/components/Button/Button";
 import {
   HiMapPin,
   HiEnvelope,

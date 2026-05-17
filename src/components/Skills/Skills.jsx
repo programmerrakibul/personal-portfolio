@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import Container from "../Container/Container";
+import Container from "@/components/Container/Container";
 
 import {
   FaReact,

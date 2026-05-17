@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import Container from "../Container/Container";
-import Button from "../Button/Button";
-import heroImg from "../../assets/hero.jpg";
+import Container from "@/components/Container/Container";
+import Button from "@/components/Button/Button";
+import heroImg from "@/assets/hero.jpg";
 import { HiDownload } from "react-icons/hi";
 
 const Hero = () => {
@@ -77,6 +77,7 @@ const Hero = () => {
                     src={heroImg}
                     alt="Rakibul Islam"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
 
                   {/* Overlay gradient for depth */}

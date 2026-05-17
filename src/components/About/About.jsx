@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
-import {motion,  useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import Container from "../Container/Container";
-import Button from "../Button/Button";
-import aboutImg from "../../assets/hero.jpg";
+import Container from "@/components/Container/Container";
+import Button from "@/components/Button/Button";
+import aboutImg from "@/assets/hero.jpg";
 import { HiDownload } from "react-icons/hi";
 import { FaLinkedin, FaGithub, FaFacebook, FaXTwitter } from "react-icons/fa6";
 
@@ -12,10 +12,30 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const socialLinks = [
-    { icon: FaLinkedin, href: "https://www.linkedin.com/in/programmer-rakibul/", label: "LinkedIn", color: "hover:bg-blue-600" },
-    { icon: FaGithub, href: "https://github.com/programmerrakibul", label: "GitHub", color: "hover:bg-gray-900" },
-    { icon: FaFacebook, href: "https://www.facebook.com/programmerrakibul", label: "Facebook", color: "hover:bg-blue-500" },
-    { icon: FaXTwitter, href: "https://x.com/innocentboy206", label: "X (Twitter)", color: "hover:bg-black" },
+    {
+      icon: FaLinkedin,
+      href: "https://www.linkedin.com/in/programmer-rakibul/",
+      label: "LinkedIn",
+      color: "hover:bg-blue-600",
+    },
+    {
+      icon: FaGithub,
+      href: "https://github.com/programmerrakibul",
+      label: "GitHub",
+      color: "hover:bg-gray-900",
+    },
+    {
+      icon: FaFacebook,
+      href: "https://www.facebook.com/programmerrakibul",
+      label: "Facebook",
+      color: "hover:bg-blue-500",
+    },
+    {
+      icon: FaXTwitter,
+      href: "https://x.com/innocentboy206",
+      label: "X (Twitter)",
+      color: "hover:bg-black",
+    },
   ];
 
   const containerVariants = {
@@ -77,6 +97,7 @@ const About = () => {
                       src={aboutImg}
                       alt="Profile"
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </div>
 
@@ -95,7 +116,11 @@ const About = () => {
                           whileHover={{ scale: 1.2, rotate: 5 }}
                           whileTap={{ scale: 0.9 }}
                           initial={{ opacity: 0, y: 20 }}
-                          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                          animate={
+                            isInView
+                              ? { opacity: 1, y: 0 }
+                              : { opacity: 0, y: 20 }
+                          }
                           transition={{ delay: 0.6 + index * 0.1 }}
                         >
                           <Icon className="w-5 h-5" />
@@ -137,7 +162,10 @@ const About = () => {
                   href="https://drive.google.com/uc?export=download&id=1bGZvYnbQUxohwmJiug-NPv4gzws5Ja1K"
                   download
                 >
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <Button
                       variant="outline"
                       size="md"

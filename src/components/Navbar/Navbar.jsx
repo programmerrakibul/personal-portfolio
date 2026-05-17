@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo } from "react";
 // eslint-disable-next-line no-unused-vars
-import {motion,  AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Container from "../Container/Container";
-import Button from "../Button/Button";
+import Container from "@/components/Container/Container";
+import Button from "@/components/Button/Button";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {
@@ -12,7 +12,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Check if we're on project details page
   const isProjectDetailsPage = location.pathname.includes("/project-details/");
 
@@ -33,13 +33,13 @@ const Navbar = () => {
       { label: "Skills", href: "#skills", id: "skills" },
       { label: "Contact", href: "#contact", id: "contact" },
     ],
-    []
+    [],
   );
 
   // Smooth scroll handler
   const handleSmoothScroll = (e, href) => {
     e.preventDefault();
-    
+
     // If on project details page, navigate to home with state
     if (isProjectDetailsPage) {
       const targetId = href.replace("#", "");
@@ -47,7 +47,7 @@ const Navbar = () => {
       setMobileMenuOpen(false);
       return;
     }
-    
+
     const targetId = href.replace("#", "");
     const targetElement = document.querySelector(`#${targetId}`);
 
@@ -69,18 +69,20 @@ const Navbar = () => {
     if (location.state?.scrollTo && !isProjectDetailsPage) {
       // Small delay to ensure DOM is ready
       setTimeout(() => {
-        const targetElement = document.querySelector(`#${location.state.scrollTo}`);
-        
+        const targetElement = document.querySelector(
+          `#${location.state.scrollTo}`,
+        );
+
         if (targetElement) {
           const navbarHeight = 64;
           const targetPosition = targetElement.offsetTop - navbarHeight;
-          
+
           window.scrollTo({
             top: targetPosition,
             behavior: "smooth",
           });
         }
-        
+
         // Clear the state after scrolling
         navigate(location.pathname, { replace: true, state: {} });
       }, 100);
@@ -105,7 +107,7 @@ const Navbar = () => {
 
     const observer = new IntersectionObserver(
       observerCallback,
-      observerOptions
+      observerOptions,
     );
 
     // Observe all sections
@@ -124,7 +126,7 @@ const Navbar = () => {
   const navLinks = navItems.map((item, index) => {
     const isActive = !isProjectDetailsPage && activeSection === item.id;
     const linkTo = isProjectDetailsPage ? "/" : item.href;
-    
+
     return (
       <li key={index}>
         <Link
@@ -159,7 +161,9 @@ const Navbar = () => {
             <div className="navbar-start">
               <Link
                 to={isProjectDetailsPage ? "/" : "#home"}
-                onClick={(e) => !isProjectDetailsPage && handleSmoothScroll(e, "#home")}
+                onClick={(e) =>
+                  !isProjectDetailsPage && handleSmoothScroll(e, "#home")
+                }
                 className="text-lg sm:text-xl md:text-2xl font-black bg-linear-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent hover:scale-105 active:scale-95 transition-transform duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30 rounded px-1"
                 aria-label="Rakibul - Home"
               >
@@ -210,49 +214,46 @@ const Navbar = () => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
                 <div className="bg-base-100/80 backdrop-blur-xl shadow-sm px-4 md:px-6 py-4 space-y-2 border-t border-base-200/30">
-              {/* Mobile Nav Links */}
-              <div className="space-y-1">
-                {navItems.map((item, index) => {
-                  const isActive = !isProjectDetailsPage && activeSection === item.id;
-                  const linkTo = isProjectDetailsPage ? "/" : item.href;
-                  
-                  return (
-                    <Link
-                      key={index}
-                      to={linkTo}
-                      onClick={(e) => handleSmoothScroll(e, item.href)}
-                      className={`block py-3 px-4 text-sm sm:text-base md:text-lg font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 ${
-                        isActive
-                          ? "bg-primary/10 text-primary"
-                          : "text-base-content/80 hover:bg-base-200/40 hover:text-primary"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </div>
+                  {/* Mobile Nav Links */}
+                  <div className="space-y-1">
+                    {navItems.map((item, index) => {
+                      const isActive =
+                        !isProjectDetailsPage && activeSection === item.id;
+                      const linkTo = isProjectDetailsPage ? "/" : item.href;
 
-              {/* Divider */}
-              <div className="divider my-2" />
+                      return (
+                        <Link
+                          key={index}
+                          to={linkTo}
+                          onClick={(e) => handleSmoothScroll(e, item.href)}
+                          className={`block py-3 px-4 text-sm sm:text-base md:text-lg font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 ${
+                            isActive
+                              ? "bg-primary/10 text-primary"
+                              : "text-base-content/80 hover:bg-base-200/40 hover:text-primary"
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
 
-              {/* Mobile CTA */}
-              <Link
-                to={isProjectDetailsPage ? "/" : "#contact"}
-                onClick={(e) => handleSmoothScroll(e, "#contact")}
-                className="block"
-              >
-                <Button
-                  variant="primary"
-                  size="md"
-                  fullWidth
-                >
-                  Get in Touch
-                </Button>
-              </Link>
-              <p className="text-center text-xs sm:text-sm text-base-content/40 pt-2">
-                Let&apos;s work together
-              </p>
+                  {/* Divider */}
+                  <div className="divider my-2" />
+
+                  {/* Mobile CTA */}
+                  <Link
+                    to={isProjectDetailsPage ? "/" : "#contact"}
+                    onClick={(e) => handleSmoothScroll(e, "#contact")}
+                    className="block"
+                  >
+                    <Button variant="primary" size="md" fullWidth>
+                      Get in Touch
+                    </Button>
+                  </Link>
+                  <p className="text-center text-xs sm:text-sm text-base-content/40 pt-2">
+                    Let&apos;s work together
+                  </p>
                 </div>
               </motion.div>
             )}

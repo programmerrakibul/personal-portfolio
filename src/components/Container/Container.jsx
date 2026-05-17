@@ -1,6 +1,9 @@
-const Container = ({ children, className = "" }) => {
+const Container = ({ children, className = "", ...props }) => {
   return (
-    <div className={`container mx-auto px-5 sm:px-6 lg:px-8 ${className}`}>
+    <div
+      className={`container mx-auto px-5 sm:px-6 lg:px-8 ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );
